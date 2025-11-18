@@ -5,7 +5,15 @@ public enum TokenType
     Text,
     Underscore,
     DoubleUnderscore,
+    Escape,
     Hash,
-    Space,
-    Backslash
+    Whitespace,
+    EndOfLine,
+    EndOfFile,
+    OpenBracket,
+    CloseBracket,
+    OpenParen,
+    CloseParen,
+    AutoLinkOpen,
+    AutoLinkClose
 }

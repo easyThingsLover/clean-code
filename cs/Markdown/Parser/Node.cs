@@ -1,16 +1,36 @@
-﻿namespace Markdown;
+﻿namespace Markdown.Parsing;
 
-public class Node
+public abstract class Node
 {
-    public NodeType Type { get; protected set; }
-    public List<Node> Children { get; } = new();
-    public string Value { get;}
+}
 
-    public Node(NodeType type, string value)
-    {
-        Type = type;
-        Value = value;
-    }
+public class DocumentNode(List<Node> children) : Node
+{
+    public List<Node> Children { get; } = children;
+}
 
-    public void AddChild(Node child) => Children.Add(child);
+public class TextNode(string text) : Node
+{
+    public string Text { get; } = text;
+}
+
+public class EmphasisNode(List<Node> children) : Node
+{
+    public List<Node> Children { get; } = children;
+}
+
+public class StrongNode(List<Node> children) : Node
+{
+    public List<Node> Children { get; } = children;
+}
+
+public class LinkNode(string href, List<Node> children) : Node
+{
+    public string Href { get; } = href;
+    public List<Node> Children { get; } = children;
+}
+
+public class HeadingNode(List<Node> children) : Node
+{
+    public List<Node> Children { get; } = children;
 }

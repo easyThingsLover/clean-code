@@ -1,15 +1,6 @@
 ﻿namespace Markdown;
-
-public class Token
+public class Token(TokenType type, string value)
 {
-    public TokenType Type { get; }
-    public string Value { get; }
-    public int Position { get; }
-
-    public Token(TokenType type, string value, int position)
-    {
-        Type = type;
-        Value = value;
-        Position = position;
-    }
+    public TokenType Type { get; } = type;
+    public string Value { get; } = value;
 }
