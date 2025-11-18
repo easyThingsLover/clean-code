@@ -2,25 +2,18 @@
 
 public class Parser
 {
-    private readonly TokenIndexer indexer;
-
-    private Parser(List<Token> tokens)
+    public DocumentNode Parse(List<Token> tokens)
     {
-        indexer = new TokenIndexer(tokens);
-    }
-
-    public static DocumentNode Parse(List<Token> tokens)
-    {
-        var parser = new Parser(tokens);
-        var nodes = parser.ParseDocument();
+        var indexer = new TokenIndexer(tokens);
+        var nodes = ParseDocument(indexer);
         return new DocumentNode(nodes);
     }
 
-    private List<Node> ParseDocument()
+    private List<INode> ParseDocument(TokenIndexer indexer)
     {
-        var nodes = new List<Node>();
+        var nodes = new List<INode>();
 
-        while (!IsEndOfFile())
+        while (!indexer.End)
         {
             if (HeadingParser.IsStartOfHeadingLine(indexer))
             {
@@ -32,16 +25,10 @@ public class Parser
             var lineNodes = InlineParser.ParseUntilEndOfLineOrEof(indexer);
             nodes.AddRange(lineNodes);
 
-            if (Is(TokenType.EndOfLine))
-                Consume();
+            if (indexer.Is(TokenType.EndOfLine))
+                indexer.Consume();
         }
 
         return nodes;
     }
-
-    private bool Is(TokenType type) => indexer.Is(type);
-
-    private void Consume() => indexer.Consume();
-
-    private bool IsEndOfFile() => indexer.End;
 }

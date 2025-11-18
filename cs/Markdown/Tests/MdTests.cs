@@ -13,7 +13,7 @@ public class MdTests
     [SetUp]
     public void Setup()
     {
-        md = new Md();
+        md = new Md(new Lexer(), new Parser(), new HtmlRender());
     }
 
     [Test]
@@ -268,8 +268,11 @@ public class MdTests
     [Test]
     public void Parser_ProduceLinkNode()
     {
-        var tokens = Lexer.Tokenize("[Skillbox Media](https://skillbox.ru/media/)");
-        var document = Parser.Parse(tokens);
+        var lexer = new Lexer();
+        
+        var tokens = lexer.Tokenize("[Skillbox Media](https://skillbox.ru/media/)");
+        var parser = new Parser();
+        var document = parser.Parse(tokens);
         document.Children.Should().ContainSingle()
             .Which.Should().BeOfType<LinkNode>()
             .Which.Href.Should().Be("https://skillbox.ru/media/");
@@ -278,11 +281,12 @@ public class MdTests
     [Test]
     public void LinkParser_RecognizeBracketLink()
     {
-        var tokens = Lexer.Tokenize("[text](https://example.com)");
+        var lexer = new Lexer();
+        var tokens = lexer.Tokenize("[text](https://example.com)");
         var cursor = new TokenIndexer(tokens);
         LinkParser.CanStartLink(cursor).Should().BeTrue();
 
-        var nodes = new List<Node>();
+        var nodes = new List<INode>();
         LinkParser.TryParseLink(cursor, nodes).Should().BeTrue();
         nodes.Should().ContainSingle().Which.Should().BeOfType<LinkNode>();
     }

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text;
 using FluentAssertions;
+using Markdown.Parsing;
 using Markdown.Tokenizing;
 using NUnit.Framework;
 
@@ -13,7 +14,7 @@ public class PerformanceTests
 
     [SetUp]
     public void SetUp()
-        => md = new Md();
+        => md = new Md(new Lexer(), new Parser(), new HtmlRender());
 
     [Test]
     public void Renderer_RenderLargeTextFast()

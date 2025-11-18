@@ -10,7 +10,7 @@ public static class LinkParser
         return indexer.Is(TokenType.OpenBracket) || indexer.Is(TokenType.AutoLinkOpen);
     }
 
-    public static bool TryParseLink(TokenIndexer indexer, List<Node> nodes)
+    public static bool TryParseLink(TokenIndexer indexer, List<INode> nodes)
     {
         var inlineLink = TryParseInlineLink(indexer);
         if (inlineLink != null)
@@ -99,7 +99,7 @@ public static class LinkParser
             return null;
         }
 
-        var children = new List<Node> { new TextNode(href) };
+        var children = new List<INode> { new TextNode(href) };
         return new LinkNode(href, children);
     }
 

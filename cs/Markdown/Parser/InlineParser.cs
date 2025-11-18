@@ -5,19 +5,19 @@ namespace Markdown;
 
 public static class InlineParser
 {
-    public static List<Node> ParseUntilEndOfLineOrEof(TokenIndexer indexer)
+    public static List<INode> ParseUntilEndOfLineOrEof(TokenIndexer indexer)
     {
         return Parse(indexer, null);
     }
 
-    internal static List<Node> ParseUntil(TokenIndexer indexer, Func<TokenIndexer, bool> shouldStop)
+    internal static List<INode> ParseUntil(TokenIndexer indexer, Func<TokenIndexer, bool> shouldStop)
     {
         return Parse(indexer, shouldStop);
     }
 
-    private static List<Node> Parse(TokenIndexer indexer, Func<TokenIndexer, bool>? shouldStop)
+    private static List<INode> Parse(TokenIndexer indexer, Func<TokenIndexer, bool>? shouldStop)
     {
-        var nodes = new List<Node>();
+        var nodes = new List<INode>();
         var underscoreParser = new UnderscoreParser(indexer);
 
         while (!indexer.End && !ShouldStop(shouldStop, indexer))

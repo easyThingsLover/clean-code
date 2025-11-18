@@ -7,11 +7,15 @@ namespace Markdown.Tests;
 public class LexerTests
 {
     private List<Token> Tokens(string text)
-        => Lexer.Tokenize(text);
-
+    {
+        var lexer =  new Lexer();
+        return lexer.Tokenize(text);
+    }
     private List<TokenType> Types(string text)
-        => Lexer.Tokenize(text).Select(t => t.Type).ToList();
-
+    {
+        var lexer =  new Lexer();
+        return lexer.Tokenize(text).Select(t => t.Type).ToList();
+    }
 
     [TestCase("hello!")]
     public void Lexer_ProduceTextToken_WhenSimpleWord(string input)
